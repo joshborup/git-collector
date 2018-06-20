@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-class App extends Component {
+class StudentPage extends Component {
   constructor(props){
     super(props)
     this.state = {
       user: '',
       gitUser:'',
       gitRepo: '',
-      message:'Please Login'
+      message:'Please Login',
+      message:''
     }
   }
 
@@ -36,7 +37,7 @@ class App extends Component {
       })
     })
   }
-  
+
   changeHandler = (key, value) => {
     this.setState({
       [key]: value,
@@ -47,6 +48,15 @@ class App extends Component {
   star = () => {
      axios.get(`/api/${this.state.gitUser}/${this.state.gitRepo}`).then(response => {
        console.log(response.data);
+       if(response.data.message){
+          this.setState({
+            message: response.data.message
+          })
+       }else{
+         this.setState({
+           message:''
+         })
+       }
      })
   }
 
@@ -71,6 +81,7 @@ class App extends Component {
                 <button onClick={this.star}>Submit</button>
                 <button onClick={this.logout}>logout</button>
               </div>
+              {this.state.message}
             </div>
             :
             <div>
@@ -84,4 +95,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default StudentPage;
