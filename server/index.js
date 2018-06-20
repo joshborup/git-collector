@@ -3,12 +3,6 @@ const app = express();
 
 app.get('/callback', (req, res) => {
 
-<<<<<<< HEAD
-  // Code below
-
-})
-
-=======
   function setGitTokenToSessions(gitAccessToken){
     req.session.access_token = gitAccessToken.data.identities[0].access_token
     res.redirect('/')
@@ -33,7 +27,6 @@ app.get('/api/:gitUser/:gitRepo', (req, res) => {
   }).catch((err) => console.log(err))
 })
 
->>>>>>> solution
 app.get('/api/user-data', (req, res) => {
   res.status(200).json(req.session.user)
 })
