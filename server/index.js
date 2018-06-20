@@ -70,7 +70,8 @@ app.get('/api/:gitUser/:gitRepo', (req, res) => {
   console.log( gitUser, gitRepo );
   axios.get(`https://api.github.com/repos/${gitUser}/${gitRepo}/events?access_token=${req.session.access_token}`).then(response => {
     let onlyPushEvents = response.data.filter((elem) => elem.type == "PushEvent" && elem.payload.commits[0].message.includes('finished:'))
-    if(onlyPushEvents = []){
+    console.log(onlyPushEvents.length);
+    if(!onlyPushEvents.length){
       onlyPushEvents = {message: 'hmmm try a different repository or check your commit message on your github repo page'}
     }
     res.status(200).json(onlyPushEvents)
