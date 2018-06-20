@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import logo from './logo.svg';
-import './App.css';
+import StudentPage from './components/StudentPage';
 
 class App extends Component {
+<<<<<<< HEAD
   constructor(props){
     super(props)
     this.state = {
@@ -58,36 +57,14 @@ class App extends Component {
       return axios.get(`/api/unstar?gitUser=${this.state.gitUser}&gitRepo=${this.state.gitRepo}`)
     }
   }
+=======
+>>>>>>> solution
 
+  
   render() {
-    console.log(this.state.gitRepo);
     return (
       <div className="App">
-        <div>
-          {
-            this.state.user ?
-            <div>
-              <div className='user-image-container'>
-                <img src={this.state.user.picture}/>
-              </div>
-
-              <p>{this.state.user.name}</p>
-
-              <input onChange={(e)=> this.changeHandler(e.target.name, e.target.value)}  name='gitUser' placeholder='Repo Owner' value={this.state.gitUser}/>
-              <input onChange={(e)=> this.changeHandler(e.target.name, e.target.value)} name='gitRepo' placeholder='Repo to star' value={this.state.gitRepo} />
-
-              <div>
-                <button onClick={this.star}>{this.state.starred}</button>
-                <button onClick={this.logout}>logout</button>
-              </div>
-            </div>
-            :
-            <div>
-              <p>{this.state.message}</p>
-              <button onClick={this.login}>login</button>
-            </div>
-          }
-        </div>
+        <StudentPage />
       </div>
     );
   }

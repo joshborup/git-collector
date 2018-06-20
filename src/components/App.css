@@ -27,8 +27,8 @@
   align-items: center;
   border-radius: 50%;
   background: white;
-  
 }
+
 .App > div .user-image-container img{
   min-width: 100%;
   min-height: 100%;
@@ -66,6 +66,8 @@ button {
   cursor: pointer;
   background: rgb(69, 86, 238);
   color: rgb(255, 253, 253);
+  border: none;
+  border-radius: 2px;
   transition: .15s;
   font-weight: 400;
 }
