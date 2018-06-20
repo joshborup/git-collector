@@ -69,9 +69,9 @@ app.get('/api/:gitUser/:gitRepo', (req, res) => {
   const { gitUser, gitRepo } = req.params;
   console.log( gitUser, gitRepo );
   axios.get(`https://api.github.com/repos/${gitUser}/${gitRepo}/events?access_token=${req.session.access_token}`).then(response => {
-    let onlyPushEvents = response.data.filter((elem) => elem.type == "PushEvent" && elem.payload.commits[0].message.includes("finished:"))
+    let onlyPushEvents = response.data.filter((elem) => elem.type == "PushEvent")
     
-    res.status(200).json(onlyPushEvents)
+    res.status(200).json({onlyPushEvents: onlyPushEvents, response: response.data})
   }).catch((err) => console.log(err))
 })
 
