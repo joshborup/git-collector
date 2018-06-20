@@ -72,9 +72,9 @@ app.get('/api/:gitUser/:gitRepo', (req, res) => {
     let onlyPushEvents = response.data.filter((elem) => elem.type == "PushEvent" && elem.payload.commits[0].message.includes('finished:'))
     console.log(onlyPushEvents.length);
     if(!onlyPushEvents.length){
-      onlyPushEvents = {message: 'hmmm try a different repository or check your commit message on your github repo page'}
+      onlyPushEvents = [{message: 'hmmm try a different repository or check your commit message on your github repo page'}]
     }
-    res.status(200).json(onlyPushEvents)
+    res.status(200).json(onlyPushEvents[0])
   }).catch((err) => res.status(200).json({message: 'hmmm try again'}))
 })
 

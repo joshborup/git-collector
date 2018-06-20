@@ -54,7 +54,8 @@ class StudentPage extends Component {
           })
        }else{
          this.setState({
-           message:''
+           message:'',
+           repoInfo: response.data
          })
        }
      })
@@ -81,7 +82,9 @@ class StudentPage extends Component {
                 <button onClick={this.star}>Submit</button>
                 <button onClick={this.logout}>logout</button>
               </div>
-              {this.state.message}
+              <pre>
+                {this.state.message ||  JSON.stringify(this.state.repoInfo, null, 2)}
+              </pre>
             </div>
             :
             <div>
