@@ -65,18 +65,14 @@ app.get('/callback', (req, res) => {
 })
 
 
-app.get('/api/star', (req, res) => {
-  const { gitUser, gitRepo } = req.query;
-  axios.put(`https://api.github.com/user/starred/${gitUser}/${gitRepo}?access_token=${req.session.access_token}`).then(response => {
-    res.status(200).end()
+app.get('/api/:gitUser/:gitRepo', (req, res) => {
+  const { gitUser, gitRepo } = req.params;
+  console.log( gitUser, gitRepo );
+  axios.get(`https://api.github.com/repos/${gitUser}/${gitRepo}/events?access_token=${req.session.access_token}`).then(response => {
+    let onlyPushEvents = response.data.filter((elem) => elem.type == "PushEvent" && elem.payload.commits[0].message.includes("finished:"))
+    
+    res.status(200).json(onlyPushEvents)
   }).catch((err) => console.log(err))
-})
-
-app.get('/api/unstar', (req, res) => {
-  const { gitUser, gitRepo } = req.query;
-  axios.delete(`https://api.github.com/user/starred/${gitUser}/${gitRepo}?access_token=${req.session.access_token}`).then(response => {
-    res.status(200).end()
-  }).catch(err => console.log('error', err));
 })
 
 app.get('/api/user-data', (req, res) => {
