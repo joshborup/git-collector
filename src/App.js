@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StudentPage from './components/StudentPage';
+import StudentPage from './components/StudentSubmit.js/StudentPage';
 
 class App extends Component {
 

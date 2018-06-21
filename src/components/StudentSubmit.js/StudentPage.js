@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
+import Submissions from './Submissions';
+import './student.css';
 
 class StudentPage extends Component {
   constructor(props){
@@ -9,8 +10,9 @@ class StudentPage extends Component {
       user: '',
       gitUser:'',
       gitRepo: '',
-      message:'Please Login',
-      message:''
+      message:'',
+      comments:'',
+      cohort:''
     }
   }
 
@@ -19,7 +21,7 @@ class StudentPage extends Component {
       console.log(user);
       this.setState({
         user: user.data,
-        gitUser: user.data.nickname
+        gitUser: user.data.git_hub_name
       })
     })
   }
@@ -40,54 +42,43 @@ class StudentPage extends Component {
 
   changeHandler = (key, value) => {
     this.setState({
-      [key]: value,
-      starred: 'star'
+      [key]: value
     })
   }
 
-  star = () => {
-     axios.get(`/api/${this.state.gitUser}/${this.state.gitRepo}`).then(response => {
+  submit = () => {
+     axios.post(`/api/${this.state.gitUser}/${this.state.gitRepo}`, {cohort: this.state.cohort, comments: this.state.comments}).then(response => {
        console.log(response.data);
-       if(response.data.message){
           this.setState({
-            message: response.data.message
-          })
-       }else{
-         this.setState({
-           message:'',
-           repoInfo: response.data
+            message: response.data.message,
+            cohort: '',
+            comments:'',
+            repoInfo: '',
+            comments:'',
+            cohort:'',
+            gitRepo: ''
          })
-       }
      })
   }
-
+  
   render() {
-    console.log(this.state.gitRepo);
+    let { user, gitUser, gitRepo, repoInfo, cohort, comments, message } = this.state
+    let { submit, logout, changeHandler, login } = this;
+    let studentSubmissions = { user, gitUser , gitRepo , repoInfo, cohort, comments, message }
+    let studentDispatchers = {submit, logout, changeHandler, login}
+
+    console.log('this.state :', this.state);
     return (
-      <div className="App">
+      <div className="submission-page-container">
         <div>
           {
-            this.state.user ?
-            <div>
-              <div className='user-image-container'>
-                <img src={this.state.user.picture}/>
-              </div>
-
-              <p>{this.state.user.name}</p>
-
-              <p>Git Username: {this.state.gitUser}</p>
-              <input onChange={(e)=> this.changeHandler(e.target.name, e.target.value)} name='gitRepo' placeholder='Enter Repo name' value={this.state.gitRepo} />
-
-              <div>
-                <button onClick={this.star}>Submit</button>
-                <button onClick={this.logout}>logout</button>
-              </div>
-              <pre>
-                {this.state.message ||  JSON.stringify(this.state.repoInfo, null, 2)}
-              </pre>
+            user ?
+            <div className='logged-in-student-submissions'>
+              <Submissions {...studentDispatchers} {...studentSubmissions}/>
+              <div> sup </div>
             </div>
             :
-            <div>
+            <div className='login'>
               <p>{this.state.message}</p>
               <button onClick={this.login}>login</button>
             </div>
